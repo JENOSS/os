@@ -1,0 +1,49 @@
+PRINT_MB:
+ mov eax, ebp
+ mov ecx, 1000
+ push di
+ push eax ; a
+ push ecx ; c
+ mov di, 0
+
+REPEAT:
+ pop ecx; c
+ pop eax; a
+
+ cmp ecx, 0
+ je REPEAT_END
+ 
+ mov dx,0
+ div ecx ;eax / ecx = > print ax , eax = dx
+ add eax, 48
+ 
+ mov [TOTAL+di], al
+
+ push edx ; a
+
+ mov eax, ecx
+ mov ecx, 10
+ mov dx,0
+ div ecx
+ 
+ push eax
+ inc di
+
+ jmp REPEAT
+
+REPEAT_END:
+ pop di
+
+ push PRINTRAM
+ push 1
+ push 0
+ call PRINTMESSAGE
+ add sp,6
+
+ push TOTAL
+ push 1
+ push 10
+ call PRINTMESSAGE
+ add sp,6
+
+	
